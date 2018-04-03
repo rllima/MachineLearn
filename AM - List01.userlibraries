@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="weka">
+    <archive path="C:/Users/Rodrigo/Downloads/weka.jar" />
+  </library>
+</eclipse-userlibraries>
+
