@@ -28,9 +28,6 @@ def generatePrototypes(trainSet, numberOfClasses,classes, numberOfPrototypes):
             final.append(prototypes[i][rand])
     return final
 
-
-
-    return final
         
         
             
