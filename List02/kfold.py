@@ -7,8 +7,9 @@ def generateFolds(dataset, numberSplites):
        
 def getDefaultResults(dataset):
     classes = []
+    size = dataset.shape[1]
     for  var in dataset:
-        classes.append(var[21])
+        classes.append(var[size-1])
     classes = np.array(classes)
     return classes    
 
