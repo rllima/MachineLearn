@@ -16,6 +16,7 @@ k = kfold.generateFolds(dataset,2)
 for train_index, test_index in k.split(dataset,Y):
         X_train, X_test = dataset[train_index], dataset[test_index]
         print("TRAIN:", X_train.shape[0], "TEST:", X_test.shape[0])
-        prototypes.generatePrototypes(X_train,numberOfClasses,classesValues)
+        x = prototypes.generatePrototypes(X_train,numberOfClasses,classesValues,10)
+        print(x)
        
 

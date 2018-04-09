@@ -9,7 +9,7 @@ def getDefaultResults(dataset):
     classes = []
     size = dataset.shape[1]
     for  var in dataset:
-        classes.append(var[size-1])
+        classes.append(var[-1])
     classes = np.array(classes)
     return classes    
 
