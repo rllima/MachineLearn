@@ -13,9 +13,6 @@ dataset = np.array(dataset)
 Y = kfold.getDefaultResults(dataset)
 numberOfClasses = len(set(Y))
 classesValues = list(set(Y))
-# scaler = MinMaxScaler()
-# data = []
-# print(scaler.data_max_)
 
 k = kfold.generateFolds(dataset,2)
 for train_index, test_index in k.split(dataset,Y):
@@ -23,5 +20,5 @@ for train_index, test_index in k.split(dataset,Y):
         print("TRAIN:", X_train.shape[0], "TEST:", X_test.shape[0])
         prot = prototypes.generatePrototypes(X_train,numberOfClasses,classesValues,10)
         LVQ_Prototypes = lvq1.train(X_train, 0.1, prot,5)
-        print(LVQ_Prototypes)
+        LVQ_Prototypes
 

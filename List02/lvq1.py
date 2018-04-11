@@ -29,6 +29,6 @@ def train(train, lrate, prototypes, epochs):
                     prototype[j] -= rate * error
 
         print('>epoch=%d, lrate=%.3f, error=%.3f' % (i, rate, totalError))
-    return prototype;
+    return prototypes;
 
      
