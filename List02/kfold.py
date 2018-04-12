@@ -2,7 +2,7 @@ from sklearn.model_selection import StratifiedKFold
 import numpy as np
 
 def generateFolds(dataset, numberSplites):  
-    kf = StratifiedKFold(n_splits=numberSplites,random_state=1)
+    kf = StratifiedKFold(n_splits=numberSplites,shuffle=True,random_state=1)
     return kf
        
 def getDefaultResults(dataset):
