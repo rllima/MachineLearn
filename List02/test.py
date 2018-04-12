@@ -4,9 +4,15 @@ import reader as rd
 import numbers
 import kfold as kfold
 import prototypes
-import lvq1
-from sklearn.preprocessing import MinMaxScaler
+from lvq import lvq1,lvq21
+import prepareData
+import time
+from sklearn.neighbors import KNeighborsClassifier
 
+kfoldNumber = 2               #number of folds, for more or less, change this value.
+numberOfPrototypes = 10       #number of prototypes
+epochs = 5                    #number of epochs training
+lvqs = [lvq1, lvq21]                   
 dataset = rd.readBase()
 dataset = dataset.values
 dataset = np.array(dataset)
@@ -14,11 +20,28 @@ Y = kfold.getDefaultResults(dataset)
 numberOfClasses = len(set(Y))
 classesValues = list(set(Y))
 
-k = kfold.generateFolds(dataset,2)
+
+k = kfold.generateFolds(dataset,kfoldNumber)
 for train_index, test_index in k.split(dataset,Y):
         X_train, X_test = dataset[train_index], dataset[test_index]
         print("TRAIN:", X_train.shape[0], "TEST:", X_test.shape[0])
-        prot = prototypes.generatePrototypes(X_train,numberOfClasses,classesValues,10)
-        LVQ_Prototypes = lvq1.train(X_train, 0.1, prot,5)
-        LVQ_Prototypes
+        prot = prototypes.generatePrototypes(X_train,numberOfClasses,classesValues,numberOfPrototypes)
+        for l, lvq in enumerate(lvqs):
+                before = time.time()	
+                LVQ_Prototypes = lvq(X_train, 0.1, prot,epochs)
+                final = time.time() - before
+                print('>Training time=%.3f' % (final))
+                trainProtypes , resultProtypes, test, resulTest = prepareData.slipData(LVQ_Prototypes, X_train)
+                for k in [1,3,5]:
+                        knn = KNeighborsClassifier(n_neighbors=k)
+                        knn.fit(trainProtypes, resultProtypes)
+                        pred = knn.predict(test)
+                        shot = 0
+                        for i in range(len(pred)):
+                                if pred[i] == resulTest[i]:
+                                        shot += 1
+                        print('>Kneighbors=%d, >Partial-Acurracy=%.3f' % (k, (shot/len(pred))))
+                        
+                        
+
 
