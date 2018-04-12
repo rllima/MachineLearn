@@ -27,6 +27,7 @@ def window(prot1, prot2, instance, w):
     s = ((1-w)/(1+w))
 
     return (mini>s) 
+    
 def lvq21(train,lrate,prototypes,epochs):
     prots = lvq1(train,lrate,prototypes, epochs)
     for i in range(epochs):
