@@ -24,7 +24,7 @@ classesValues = list(set(Y))
 for l, lvq in enumerate(lvqs):
         print("LVQ " + str(l+1))
         k = kfold.generateFolds(dataset,kfoldNumber)
-        totalAccuracy = 0.0
+        totalAccuracy = []
         for train_index, test_index in k.split(dataset,Y):
                 X_train, X_test = dataset[train_index], dataset[test_index]
                 prot = prototypes.generatePrototypes(X_train,numberOfClasses,classesValues,numberOfPrototypes)
@@ -33,7 +33,7 @@ for l, lvq in enumerate(lvqs):
                 final = time.time() - before
                 print('>Training time=%.3f' % (final))
                 trainProtypes , resultProtypes, test, resulTest = prepareData.slipData(LVQ_Prototypes, X_train)
-                for k in [1,3,5]:
+                for z,k in enumerate([1,3,5]):
                         knn = KNeighborsClassifier(n_neighbors=k)
                         knn.fit(trainProtypes, resultProtypes)
                         pred = knn.predict(test)
@@ -42,9 +42,12 @@ for l, lvq in enumerate(lvqs):
                                 if pred[i] == resulTest[i]:
                                         shot += 1
                         partialAccuracy = (shot/len(pred))
-                        totalAccuracy+=partialAccuracy
+                        totalAccuracy.append([])
+                        totalAccuracy[z] += partialAccuracy
                         print('>Kneighbors=%d, >Partial-Accuracy=%.3f' % (k, partialAccuracy))
-        print('>Final Resultas\n>Accuracy=%.3f' % (totalAccuracy/kfoldNumber))
+        print('>Final Results - KNN = 1\n>Accuracy=%.3f' % (totalAccuracy[0]/kfoldNumber))
+        print('>Final Results - KNN = 3\n>Accuracy=%.3f' % (totalAccuracy[1]/kfoldNumber))
+        print('>Final Results - KNN = 5\n>Accuracy=%.3f' % (totalAccuracy[2]/kfoldNumber))
                                      
                                 
 
