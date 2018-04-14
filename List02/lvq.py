@@ -1,7 +1,5 @@
 
 import distance as dt
-
-
 def lvq1(train, lrate, prototypes, epochs):
     for i in range(epochs):
         rate = lrate * (1.0 - (i/float(epochs)))
@@ -9,7 +7,7 @@ def lvq1(train, lrate, prototypes, epochs):
         for instance in train:
             prototype = dt.calculateDistance(instance, prototypes)[0][0]
             for j in range(len(instance)-1):
-                error = instance[i] - prototype[i]
+                error = instance[j] - prototype[j]
                 totalError += error**2
                 if(prototype[-1] == instance[-1]):
                     prototype[j] += rate * error

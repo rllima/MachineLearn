@@ -4,7 +4,7 @@ from sklearn import preprocessing
 
 
 def readBase():
-    data = arff.loadarff('F:\AM\Listas\MachineLearn\List02\DataBases\KC1.arff')
+    data = arff.loadarff('DataBases\CM1.arff')
     df = pd.DataFrame(data[0])
     numberOfColumns = len(df.columns)
     justClass = df[['defects']].values     #only the classes
