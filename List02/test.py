@@ -12,16 +12,16 @@ from sklearn.neighbors import KNeighborsClassifier
 kfoldNumber = 2               #number of folds, for more or less, change this value.
 numberOfPrototypes = 20      #number of prototypes
 epochs = 10                   #number of epochs training
-lvqs = [lvq3]                   
+lvqs = [lvq1, lvq21, lvq3]                   
 dataset = rd.readBase()
 dataset = dataset.values
 dataset = np.array(dataset)
 Y = kfold.getDefaultResults(dataset)
 numberOfClasses = len(set(Y))
 classesValues = list(set(Y))
-
-for l, lvq in enumerate(lvqs):
-        print("LVQ " + str(l+1))
+count = 1;
+for lvq in lvqs:
+        print("LVQ " + str(count))
         k = kfold.generateFolds(dataset,kfoldNumber)
         totalAccuracy = []
         for train_index, test_index in k.split(dataset,Y):
@@ -42,6 +42,7 @@ for l, lvq in enumerate(lvqs):
                                         shot += 1
                         partialAccuracy = (shot/len(pred))
                         totalAccuracy.append([k,partialAccuracy])
+        count+=1
         print('>Final Results - KNN = 1\n>Accuracy=%.3f' % (sum([x[1] for x in totalAccuracy if x[0] == 1])/kfoldNumber))
         print('>Final Results - KNN = 3\n>Accuracy=%.3f' % (sum([x[1] for x in totalAccuracy if x[0] == 3])/kfoldNumber))
         print('>Final Results - KNN = 5\n>Accuracy=%.3f' % (sum([x[1] for x in totalAccuracy if x[0] == 5])/kfoldNumber))
