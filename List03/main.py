@@ -4,14 +4,14 @@ import pandas as pd
 
 def main():
     columns_names = "loc,v(g),ev(g),iv(g),n,v,l,d,i,e,b,t,lOCode,lOComment,lOBlank,locCodeAndComment,uniq_Op,uniq_Opnd,total_Op,total_Opnd,branchCount,defects".split(',')
-    df = pd.read_csv('F:\AM\Listas\MachineLearn\List03\KC1.csv', names = columns_names)
+    df = pd.read_csv('List03\CM1.csv', names = columns_names)
     data = df.iloc[:,:-1].copy()
     target = df['defects']
     pca_instance = pca.pca(data,target)
 
     cov_matriz = pca_instance.cov_matriz()
     eigenvalues, eigenvectors = pca_instance.get_eigen_value_vector(cov_matriz)
-    eigen_vec = pca_instance.get_eigenvecs(eigenvalues,eigenvectors,1)
+    eigen_vec = pca_instance.get_eigenvecs(eigenvalues,eigenvectors,2)
     pca_instance.normalize()
     new_dataset = pca_instance.change_base(eigen_vec, pca_instance.normalize_data)
     print(new_dataset)
