@@ -14,7 +14,6 @@ def main():
     eigen_vec = pca_instance.get_eigenvecs(eigenvalues,eigenvectors,2)
     pca_instance.normalize()
     new_dataset = pca_instance.change_base(eigen_vec, pca_instance.normalize_data)
-    print(new_dataset)
     accuracy_pca = pca_instance.knn(new_dataset)
     accuracy_without_pca = pca_instance.knn(data)
     print("Acurracy with PCA:%.3f " % np.mean(accuracy_pca))
