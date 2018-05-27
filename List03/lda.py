@@ -10,7 +10,6 @@ class lda(object):
         self.class_values = class_values
 
     def calc_mean_vect(self):
-        
         mean_vectors = []
         for value in self.class_values:
             mean_vec = self.data[self.data['defects'] == value].apply(lambda x : x.mean())
@@ -33,7 +32,7 @@ class lda(object):
                 values, mv[0] = np.array(values).reshape(size,1), np.array(mv[0]).reshape(size,1)
                 x = values - mv[0]
                 y = np.transpose(x)
-                class_sc_mat += (x*y).astype(float)
+                class_sc_mat += (x.dot(y)).astype(float)
             sw += class_sc_mat
         return sw
     
@@ -47,20 +46,28 @@ class lda(object):
             x = mean_vec[0] - overall_mean
             y = np.transpose(x)
             n = self.data[self.data['defects'] == mean_vec[1]].shape[0]
-            sb += n * (x*y).astype(float)
+            sb += n * (x.dot(y)).astype(float)
         return sb
     
     def get_eigs(self,sw,sb):
         sw_inverse = la.inv(sw)
         eigen_val, eigen_vec = la.eig(sw_inverse.dot(sb))
-        eig_pairs = [(np.abs(eigen_val[i]), eigen_vec[:,i]) for i in range(len(eigen_val))]
+        eig_pairs = [(eigen_val[i], eigen_vec[:,i]) for i in range(len(eigen_val))]
         eig_pairs = sorted(eig_pairs, key=lambda k: k[0], reverse=True)
+        return eig_pairs
     
     def get_EVR(self,eigen_val, eig_pairs):
         print('Variance explained:\n')
         eigv_sum = sum(eigen_val)
         for i,j in enumerate(eig_pairs):
             print('eigenvalue {0:}: {1:.2%}'.format(i+1, (j[0]/eigv_sum).real))
+
+    def get_k_eigenvcs(self,eig_pairs, ks):
+        W = np.hstack((eig_pairs[i][1]) for i in range(ks))
+        return W
+
+    def transform(self, W):
+        data_lda = self.data.iloc[:,:-1].dot(W)
+        return data_lda
                 
-            
     
