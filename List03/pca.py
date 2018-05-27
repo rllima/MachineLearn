@@ -36,7 +36,9 @@ class pca(object):
         return eigen_vec
             
     def get_EVR(self,eigenvalue):
-        EVR=eigenvalue/np.sum(eigenvalue)
+        EVR = []
+        for i in eigenvalue:
+            EVR.append(i/np.sum(eigenvalue))
         return EVR
 
     def change_base(self,eigen_vec, data_normalized):
@@ -45,12 +47,12 @@ class pca(object):
             trans.append(np.dot(eigen_vec, row))
         return pd.DataFrame(trans)
 
-    def knn(self,dataset):
+    def knn(self,dataset, k):
         skf = StratifiedKFold(n_splits=3)
         accuracy = []
         for train, test in skf.split(dataset,self.target):
             data_train, data_test = dataset.iloc[train], dataset.iloc[test]
-            knn = KNeighborsClassifier(n_neighbors=5)
+            knn = KNeighborsClassifier(n_neighbors=k)
             knn.fit(data_train, self.target.iloc[train])
             pred = knn.predict(data_test)
             accuracy.append(accuracy_score(self.target.iloc[test], pred))
