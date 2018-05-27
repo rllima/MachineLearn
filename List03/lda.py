@@ -56,7 +56,7 @@ class lda(object):
         eig_pairs = [(np.abs(eigen_val[i]), eigen_vec[:,i]) for i in range(len(eigen_val))]
         eig_pairs = sorted(eig_pairs, key=lambda k: k[0], reverse=True)
     
-    def get_EVR(self):
+    def get_EVR(self,eigen_val, eig_pairs):
         print('Variance explained:\n')
         eigv_sum = sum(eigen_val)
         for i,j in enumerate(eig_pairs):
