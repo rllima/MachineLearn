@@ -2,8 +2,6 @@ import numpy as np
 import pandas as pd
 from sklearn import preprocessing
 import numpy.linalg as la
-import seaborn as sns
-from sklearn.model_selection import StratifiedKFold
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 
@@ -47,8 +45,7 @@ class pca(object):
             trans.append(np.dot(eigen_vec, row))
         return pd.DataFrame(trans)
 
-    def knn(self,dataset, k):
-        skf = StratifiedKFold(n_splits=3)
+    def knn(self,dataset, k, skf):
         accuracy = []
         for train, test in skf.split(dataset,self.target):
             data_train, data_test = dataset.iloc[train], dataset.iloc[test]

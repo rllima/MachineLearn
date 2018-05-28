@@ -1,6 +1,9 @@
 import pandas as pd
 import numpy as np
 import numpy.linalg as la
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score
+
 
 class lda(object):
     def __init__(self, dataset,target, class_values):
@@ -69,5 +72,15 @@ class lda(object):
     def transform(self, W):
         data_lda = self.data.iloc[:,:-1].dot(W)
         return data_lda
+    
+    def knn(self,dataset, k, skf):
+        accuracy = []
+        for train, test in skf.split(dataset,self.target):
+            data_train, data_test = dataset.iloc[train], dataset.iloc[test]
+            knn = KNeighborsClassifier(n_neighbors=k)
+            knn.fit(data_train, self.target.iloc[train])
+            pred = knn.predict(data_test)
+            accuracy.append(accuracy_score(self.target.iloc[test], pred))
+        return accuracy
                 
     
