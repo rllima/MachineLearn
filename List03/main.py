@@ -37,8 +37,8 @@ def main():
     knns = [1,3,5]
     print("Components PCA :%.1d" % k_components)
     for j in knns:
-        print("PCA")
         print("KNN = %.1d" % j)
+        print("PCA")
         accuracy_pca = pca_instance.knn(new_dataset,j,skf)
         accuracy_without_pca = pca_instance.knn(data,j,skf)
         print("Acurracy with PCA:%.3f " % np.mean(accuracy_pca))

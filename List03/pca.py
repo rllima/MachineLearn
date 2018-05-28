@@ -19,7 +19,7 @@ class pca(object):
         self.normalize_data = df_normalized
 
     def cov_matriz(self):
-        return np.cov(np.transpose(self.data))
+        return np.cov(np.transpose(self.data), bias = True)
 
     def get_eigen_value_vector(self,cov_matriz):
         return la.eig(cov_matriz)
